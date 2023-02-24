@@ -20,8 +20,8 @@ jobs:
         run: |
           docker login -u lwasylyk -p $DOCKER_PASSWORD
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag lwasylyk/catenax-connectivity:$(git describe --tags --long) --tag lwasylyk/catenax-connectivity:latest
+        run: docker build . --file Dockerfile --tag lwasylyk/catenax-connectivity:$(git describe --tags) --tag lwasylyk/catenax-connectivity:latest
       - name: Docker Push
-        run: docker push lwasylyk/catenax-connectivity:$(git describe --tags --long)
+        run: docker push lwasylyk/catenax-connectivity:$(git describe --tags)
       - name: Docker Push
         run: docker push lwasylyk/catenax-connectivity:latest
