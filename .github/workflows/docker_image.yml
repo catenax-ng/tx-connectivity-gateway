@@ -1,0 +1,27 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [Test]
+  pull_request:
+    branches: [Test]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: docker login
+        env:
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: |
+          docker login -u lwasylyk -p $DOCKER_PASSWORD
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag lwasylyk/catenax-connectivity:$(git describe --tags) --tag lwasylyk/catenax-connectivity:latest
+      - name: Docker Push
+        run: docker push lwasylyk/catenax-connectivity:$(git describe --tags)
+      - name: Docker Push
+        run: docker push lwasylyk/catenax-connectivity:latest
